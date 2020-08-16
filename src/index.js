@@ -18,7 +18,7 @@ cors(app);
 ignoreFavicon(app);
 routes(app);
 errorHandling(app);
-// listen on PORT
+
 app.listen(PORT, () => {
   console.log(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
 });
