@@ -3,10 +3,8 @@ import mongoose from 'mongoose';
 export default function mongoConnection() {
   mongoose.set('useCreateIndex', true);
   mongoose.connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${
-      process.env.MONGO_HOST
-    }/${process.env.MONGO_DB_NAME}`,
-    { useNewUrlParser: true },
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PWD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB_NAME}`,
+    { useNewUrlParser: true, useUnifiedTopology: true },
   );
 
   mongoose.connection.on('error', () => {
