@@ -14,7 +14,21 @@ export default async function todoCreate(req, res) {
   todo
     .save()
     .then(() => {
-      res.status(201).json('Todo created');
+      const todoOrderId = req.body.todoOrderPayload.id;
+      const newTodoOrder = req.body.todoOrderPayload.todoOrder;
+      newTodoOrder.push(todo._id);
+
+      return Todo.update(
+        { _id: todoOrderId },
+        { $set: { name: 'todoOrder', description: JSON.stringify(newTodoOrder) } },
+      ).exec();
+    })
+    .then(doc => {
+      if (doc.n) {
+        res.status(200).json('Todo created and todoOrder updated');
+      } else {
+        res.status(400).json('Todo not found');
+      }
     })
     .catch(err => {
       res.status(500).json(err);
