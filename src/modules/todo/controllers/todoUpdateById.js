@@ -3,7 +3,16 @@ import Todo from '../todoModel';
 export default async function todoUpdateById(req, res) {
   const id = req.params.todoId;
 
-  Todo.update({ _id: id }, { $set: req.body })
+  let data;
+
+  if (req.body.todoOrderPayload) {
+    const newTodoOrder = req.body.todoOrderPayload.todoOrder;
+    data = { name: 'todoOrder', description: JSON.stringify(newTodoOrder) };
+  } else {
+    data = req.body;
+  }
+
+  Todo.update({ _id: id }, { $set: data })
     .exec()
     .then(doc => {
       if (doc.n) {
